@@ -17,18 +17,20 @@ test('has departments index', function () {
 test('has departments only show users departments', function () {
 
     Department::factory(5)->create();
+    $user = User::factory()->create();
 
-    $this->actingAs($user = User::factory()->create());
 
-    Department::factory(3)->create([
-        "user_id" => $user->id
-    ]);
+
+    Department::factory(3)->for($user)->create();
+
+    $this->assertCount( 8,  Department::all() );
+
+    $this->actingAs($user);
 
     $response = $this->getJson(route('departments.index'));
     $response->assertStatus(200);
 
     $this->assertCount( 3,  $response->json('departments') );
-
 
     $response->assertStatus(200);
 });

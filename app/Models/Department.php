@@ -24,13 +24,20 @@ class Department extends Model
         }  );
         self::updating( fn($model) => $model->setSlug() );
 
-        if ( Auth() && Auth()->user() )
-            static::addGlobalScope('user', fn(Builder $builder) => $builder->where('user_id', '=', Auth()->user()->id ));
+        static::addGlobalScope('user', function(Builder $builder){
+            if ( Auth()->user() )
+                $builder->where('user_id', '=', Auth()->user()->id );
+        });
+
 
     }
 
     protected function setSlug(){
 
         $this->slug = preg_replace("/[^0-9a-zA-Z]{1,}/", "-", $this->name );
+    }
+
+    public function user(){
+        return $this->belongsTo(User::class);
     }
 }

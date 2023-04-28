@@ -17,7 +17,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/dashboard';
+    public const HOME = '/list';
 
     /**
      * Define your route model bindings, pattern filters, etc.
@@ -25,7 +25,7 @@ class RouteServiceProvider extends ServiceProvider
      * @return void
      */
     public function boot()
-    {
+    {   
         $this->configureRateLimiting();
 
         $this->routes(function () {

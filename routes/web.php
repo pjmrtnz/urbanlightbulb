@@ -18,7 +18,7 @@ use Inertia\Inertia;
 Route::get('/', function () {
     return !auth()->user() 
             ? redirect( route("login") )
-            : Inertia::render('Welcome', [
+            : Inertia::render('ItemList/Index', [
                'canLogin' => Route::has('login'),
                'canRegister' => Route::has('register'),
                'laravelVersion' => Application::VERSION,
@@ -32,12 +32,13 @@ Route::middleware([
     'verified',
 ])->group(function () {
 
-    Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
-    })->name('dashboard');
+    Route::get('/list', function () {
+        return Inertia::render('ItemList/Index');
+    })->name('list.index');
 
     Route::resource( "/departments", \App\Http\Controllers\DepartmentController::class );
     Route::resource( "/items", \App\Http\Controllers\ItemController::class );
-
+    Route::resource('/list', \App\Http\Controllers\ItemListController::class );
+    Route::put('/list/{id}', 'ItemListController@update')->name('list.update');
 });
 

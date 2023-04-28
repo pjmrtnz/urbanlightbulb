@@ -106,10 +106,13 @@ const submit = () => {
     }
 };
 
+// added better feature for saving validation
+// disable Save if item dropdown is empty and quantity input is 0 and below
 const quantityClass = computed(() => {
     return form.item_qty <= 0 ? 'cursor-not-allowed text-gray-400' : 'text-gray-black cursor-pointer';
 });
 
+// update item list purchased status
 const updateItem = (itemList) => {
     const purchased = itemList.purchased === 1 ? 0 : 1;
     axios.put(route('list.update', itemList.id), { purchased })
@@ -121,6 +124,7 @@ const updateItem = (itemList) => {
     });
 };
 
+// update item list quantity
 const updateQty = (itemList) => {
   axios.put(route('list.update', itemList.id), {quantity: itemList.quantity})
     .then(() => {
